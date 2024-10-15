@@ -1,13 +1,13 @@
 export const paths = {
     public: {
-        layout: '/',
+        layout: '',
         home: '',
-        news: '/tin-tuc',
-        rent: '/nha-dat-cho-thue',
+        news: 'tin-tuc',
+        rent: 'nha-dat-cho-thue',
         sold: 'nha-dat-ban'
     },
     user: {
         layout: '/thanh-vien',
-        personal: '/ca-nhan'
+        personal: 'ca-nhan'
     }
 }

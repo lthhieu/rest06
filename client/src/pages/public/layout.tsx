@@ -1,4 +1,9 @@
+import { Outlet } from "react-router-dom"
+
 const Layout = () => {
-    return (<>Layout page</>)
+    return (<>
+        <p>Layout page</p>
+        <Outlet />
+    </>)
 }
 export default Layout

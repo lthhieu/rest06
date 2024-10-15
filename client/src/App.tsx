@@ -1,11 +1,11 @@
 
-import { Button } from "@/components/ui/button"
+import { Outlet } from "react-router-dom"
 function App() {
 
   return (
     <>
-      <p className="text-3xl font-bold underline">Hello world</p>
-      <Button>Click me</Button>
+      <p>App</p>
+      <Outlet />
     </>
   )
 }
