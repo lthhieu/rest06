@@ -1,5 +1,5 @@
 // import Link from "next/link"
-
+import appLogo from '@/assets/logo.svg'
 import { cn } from "@/lib/utils"
 // import { Icons } from "@/components/icons"
 import {
@@ -53,7 +53,12 @@ const components: { title: string; href: string; description: string }[] = [
 
 const Header = () => {
     return (
-        <div className="w-full h-24 px-[15px] py-[17px] bg-[#fff] shadow-[0_4px_10px_rgba(182,182,182,0.18)]">
+        <div className="w-full h-24 px-[15px] py-[17px] bg-[#fff] shadow-[0_4px_10px_rgba(182,182,182,0.18)] flex items-center">
+            <div className='mr-6'>
+                <a href="/">
+                    <img className='h-12 w-40 mt-2' src={appLogo} alt="App logo" />
+                </a>
+            </div>
             <NavigationMenu>
                 <NavigationMenuList>
                     <NavigationMenuItem>
