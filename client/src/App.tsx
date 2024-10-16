@@ -4,7 +4,6 @@ function App() {
 
   return (
     <>
-      <p>App</p>
       <Outlet />
     </>
   )
