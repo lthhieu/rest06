@@ -15,7 +15,18 @@ import { forwardRef } from "react"
 import { Link } from 'react-router-dom'
 import slugify from 'slugify'
 
-const soldTypes: { title: string; slug: string }[] = [
+interface subType {
+    title: string,
+    slug: string
+}
+interface navigationType {
+    id: number,
+    title: string,
+    hasSub: boolean,
+    subs?: subType[]
+}
+
+const soldTypes: subType[] = [
     "Bán căn hộ chung cư",
     "Bán chung cư mini, căn hộ dịch vụ",
     "Bán nhà riêng",
@@ -29,7 +40,7 @@ const soldTypes: { title: string; slug: string }[] = [
     "Bán kho, nhà xưởng",
     "Bán loại bất động sản khác"
 ].map(el => ({ title: el, slug: slugify(el, { locale: 'vi', lower: true }) }))
-const rentTypes: { title: string; slug: string }[] = [
+const rentTypes: subType[] = [
     "Cho thuê căn hộ chung cư",
     "Cho thuê chung cư mini, căn hộ dịch vụ",
     "Cho thuê nhà riêng",
@@ -43,42 +54,24 @@ const rentTypes: { title: string; slug: string }[] = [
     "Cho thuê loại bất động sản khác"
 ].map(el => ({ title: el, slug: slugify(el, { locale: 'vi', lower: true }) }))
 
-const components: { title: string; href: string; description: string }[] = [
+const nav: navigationType[] = [
     {
-        title: "Alert Dialog",
-        href: "/docs/primitives/alert-dialog",
-        description:
-            "A modal dialog that interrupts the user with important content and expects a response.",
+        id: 1,
+        title: 'Nhà đất bán',
+        hasSub: true,
+        subs: soldTypes
     },
     {
-        title: "Hover Card",
-        href: "/docs/primitives/hover-card",
-        description:
-            "For sighted users to preview content available behind a link.",
+        id: 1,
+        title: 'Nhà đất cho thuê',
+        hasSub: true,
+        subs: rentTypes
     },
     {
-        title: "Progress",
-        href: "/docs/primitives/progress",
-        description:
-            "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
-    },
-    {
-        title: "Scroll-area",
-        href: "/docs/primitives/scroll-area",
-        description: "Visually or semantically separates content.",
-    },
-    {
-        title: "Tabs",
-        href: "/docs/primitives/tabs",
-        description:
-            "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
-    },
-    {
-        title: "Tooltip",
-        href: "/docs/primitives/tooltip",
-        description:
-            "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.",
-    },
+        id: 1,
+        title: 'Tin tức',
+        hasSub: false
+    }
 ]
 
 const Header = () => {
@@ -91,43 +84,25 @@ const Header = () => {
             </div>
             <NavigationMenu>
                 <NavigationMenuList>
-                    <NavigationMenuItem>
-                        <NavigationMenuTrigger>Nhà đất bán</NavigationMenuTrigger>
-                        <NavigationMenuContent>
-                            <ul className="w-[350px] p-4">
-                                {soldTypes.map((el) => (
-                                    <ListItem
-                                        key={el.title}
-                                        title={el.title}
-                                        href={el.slug}
-                                    >
-                                    </ListItem>
-                                ))}
-                            </ul>
-                        </NavigationMenuContent>
-                    </NavigationMenuItem>
-                    <NavigationMenuItem>
-                        <NavigationMenuTrigger>Nhà đất cho thuê</NavigationMenuTrigger>
-                        <NavigationMenuContent>
-                            <ul className="w-[350px] p-4">
-                                {rentTypes.map((el) => (
-                                    <ListItem
-                                        key={el.title}
-                                        title={el.title}
-                                        href={el.slug}
-                                    >
-                                    </ListItem>
-                                ))}
-                            </ul>
-                        </NavigationMenuContent>
-                    </NavigationMenuItem>
-                    <NavigationMenuItem>
-                        <Link to="/docs">
+                    {nav.map(el => (<NavigationMenuItem key={el.id}>
+                        {!el.hasSub ? <Link to={slugify(el.title, { locale: 'vi', lower: true })}>
                             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                                Tin tức
+                                {el.title}
                             </NavigationMenuLink>
-                        </Link>
-                    </NavigationMenuItem>
+                        </Link> : <><NavigationMenuTrigger>{el.title}</NavigationMenuTrigger>
+                            <NavigationMenuContent>
+                                <ul className="w-[350px] p-4">
+                                    {el.subs!.map((el) => (
+                                        <ListItem
+                                            key={el.title}
+                                            title={el.title}
+                                            href={el.slug}
+                                        >
+                                        </ListItem>
+                                    ))}
+                                </ul>
+                            </NavigationMenuContent></>}
+                    </NavigationMenuItem>))}
                 </NavigationMenuList>
             </NavigationMenu>
         </div>
