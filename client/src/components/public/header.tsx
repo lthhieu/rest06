@@ -12,6 +12,36 @@ import {
     navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
 import { forwardRef } from "react"
+import { Link } from 'react-router-dom'
+import slugify from 'slugify'
+
+const soldTypes: { title: string; slug: string }[] = [
+    "Bán căn hộ chung cư",
+    "Bán chung cư mini, căn hộ dịch vụ",
+    "Bán nhà riêng",
+    "Bán nhà biệt thự, liền kề",
+    "Bán nhà mặt phố",
+    "Bán shophouse, nhà phố thương mại",
+    "Bán đất nền dự án",
+    "Bán đất",
+    "Bán trang trại, khu nghỉ dưỡng",
+    "Bán condotel",
+    "Bán kho, nhà xưởng",
+    "Bán loại bất động sản khác"
+].map(el => ({ title: el, slug: slugify(el, { locale: 'vi', lower: true }) }))
+const rentTypes: { title: string; slug: string }[] = [
+    "Cho thuê căn hộ chung cư",
+    "Cho thuê chung cư mini, căn hộ dịch vụ",
+    "Cho thuê nhà riêng",
+    "Cho thuê nhà biệt thự, liền kề",
+    "Cho thuê nhà mặt phố",
+    "Cho thuê shophouse, nhà phố thương mại",
+    "Cho thuê nhà trọ, phòng trọ",
+    "Cho thuê văn phòng",
+    "Cho thuê, sang nhượng cửa hàng, ki ốt",
+    "Cho thuê kho, nhà xưởng, đất",
+    "Cho thuê loại bất động sản khác"
+].map(el => ({ title: el, slug: slugify(el, { locale: 'vi', lower: true }) }))
 
 const components: { title: string; href: string; description: string }[] = [
     {
@@ -55,69 +85,48 @@ const Header = () => {
     return (
         <div className="w-full h-24 px-[15px] py-[17px] bg-[#fff] shadow-[0_4px_10px_rgba(182,182,182,0.18)] flex items-center">
             <div className='mr-6'>
-                <a href="/">
+                <Link to="/">
                     <img className='h-12 w-40 mt-2' src={appLogo} alt="App logo" />
-                </a>
+                </Link>
             </div>
             <NavigationMenu>
                 <NavigationMenuList>
                     <NavigationMenuItem>
-                        <NavigationMenuTrigger>Getting started</NavigationMenuTrigger>
+                        <NavigationMenuTrigger>Nhà đất bán</NavigationMenuTrigger>
                         <NavigationMenuContent>
-                            <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-                                <li className="row-span-3">
-                                    <NavigationMenuLink asChild>
-                                        <a
-                                            className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-                                            href="/"
-                                        >
-                                            {/* <Icons.logo className="h-6 w-6" /> */}
-                                            <div className="mb-2 mt-4 text-lg font-medium">
-                                                shadcn/ui
-                                            </div>
-                                            <p className="text-sm leading-tight text-muted-foreground">
-                                                Beautifully designed components that you can copy and
-                                                paste into your apps. Accessible. Customizable. Open
-                                                Source.
-                                            </p>
-                                        </a>
-                                    </NavigationMenuLink>
-                                </li>
-                                <ListItem href="/docs" title="Introduction">
-                                    Re-usable components built using Radix UI and Tailwind CSS.
-                                </ListItem>
-                                <ListItem href="/docs/installation" title="Installation">
-                                    How to install dependencies and structure your app.
-                                </ListItem>
-                                <ListItem href="/docs/primitives/typography" title="Typography">
-                                    Styles for headings, paragraphs, lists...etc
-                                </ListItem>
-                            </ul>
-                        </NavigationMenuContent>
-                    </NavigationMenuItem>
-                    <NavigationMenuItem>
-                        <NavigationMenuTrigger>Components</NavigationMenuTrigger>
-                        <NavigationMenuContent>
-                            <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-                                {components.map((component) => (
+                            <ul className="w-[350px] p-4">
+                                {soldTypes.map((el) => (
                                     <ListItem
-                                        key={component.title}
-                                        title={component.title}
-                                        href={component.href}
+                                        key={el.title}
+                                        title={el.title}
+                                        href={el.slug}
                                     >
-                                        {component.description}
                                     </ListItem>
                                 ))}
                             </ul>
                         </NavigationMenuContent>
                     </NavigationMenuItem>
                     <NavigationMenuItem>
-                        Documentation
-                        {/* <Link href="/docs" legacyBehavior passHref>
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Documentation
-            </NavigationMenuLink>
-          </Link> */}
+                        <NavigationMenuTrigger>Nhà đất cho thuê</NavigationMenuTrigger>
+                        <NavigationMenuContent>
+                            <ul className="w-[350px] p-4">
+                                {rentTypes.map((el) => (
+                                    <ListItem
+                                        key={el.title}
+                                        title={el.title}
+                                        href={el.slug}
+                                    >
+                                    </ListItem>
+                                ))}
+                            </ul>
+                        </NavigationMenuContent>
+                    </NavigationMenuItem>
+                    <NavigationMenuItem>
+                        <Link to="/docs">
+                            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                                Tin tức
+                            </NavigationMenuLink>
+                        </Link>
                     </NavigationMenuItem>
                 </NavigationMenuList>
             </NavigationMenu>
