@@ -15,11 +15,11 @@ import { forwardRef } from "react"
 import { Link } from 'react-router-dom'
 import slugify from 'slugify'
 
-interface subType {
+type subType = {
     title: string,
     slug: string
 }
-interface navigationType {
+type navigationType = {
     id: number,
     title: string,
     hasSub: boolean,
