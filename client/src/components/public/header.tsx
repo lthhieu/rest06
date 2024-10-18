@@ -1,7 +1,5 @@
-// import Link from "next/link"
 import appLogo from '@/assets/logo.svg'
 import { cn } from "@/lib/utils"
-// import { Icons } from "@/components/icons"
 import {
     NavigationMenu,
     NavigationMenuContent,
@@ -14,6 +12,9 @@ import {
 import { forwardRef } from "react"
 import { Link } from 'react-router-dom'
 import slugify from 'slugify'
+import { Button } from '@/components/ui/button'
+import { Heart } from 'lucide-react'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 
 type subType = {
     title: string,
@@ -62,13 +63,13 @@ const nav: navigationType[] = [
         subs: soldTypes
     },
     {
-        id: 1,
+        id: 2,
         title: 'Nhà đất cho thuê',
         hasSub: true,
         subs: rentTypes
     },
     {
-        id: 1,
+        id: 3,
         title: 'Tin tức',
         hasSub: false
     }
@@ -76,35 +77,58 @@ const nav: navigationType[] = [
 
 const Header = () => {
     return (
-        <div className="w-full h-24 px-[15px] py-[17px] bg-[#fff] shadow-[0_4px_10px_rgba(182,182,182,0.18)] flex items-center">
-            <div className='mr-6'>
-                <Link to="/">
-                    <img className='h-12 w-40 mt-2' src={appLogo} alt="App logo" />
-                </Link>
+        <div className="w-full h-24 px-[15px] py-[17px] bg-[#fff] shadow-[0_4px_10px_rgba(182,182,182,0.18)] flex items-center justify-between">
+            <div className='flex items-center'>
+                <div className='mr-6'>
+                    <Link to="/">
+                        <img className='h-12 w-40 mt-2' src={appLogo} alt="App logo" />
+                    </Link>
+                </div>
+                <NavigationMenu>
+                    <NavigationMenuList>
+                        {nav.map(el => (<NavigationMenuItem key={el.id}>
+                            {!el.hasSub ?
+                                <NavigationMenuLink href={slugify(el.title, { locale: 'vi', lower: true })} className={navigationMenuTriggerStyle()}>
+                                    {el.title}
+                                </NavigationMenuLink> : <><NavigationMenuTrigger>{el.title}</NavigationMenuTrigger>
+                                    <NavigationMenuContent>
+                                        <ul className="w-[350px] p-4">
+                                            {el.subs!.map((el) => (
+
+                                                <ListItem
+                                                    key={el.title}
+                                                    title={el.title}
+                                                    href={el.slug}
+                                                >
+                                                </ListItem>
+                                            ))}
+                                        </ul>
+                                    </NavigationMenuContent></>}
+                        </NavigationMenuItem>))}
+                    </NavigationMenuList>
+                </NavigationMenu>
             </div>
-            <NavigationMenu>
-                <NavigationMenuList>
-                    {nav.map(el => (<NavigationMenuItem key={el.id}>
-                        {!el.hasSub ? <Link to={slugify(el.title, { locale: 'vi', lower: true })}>
-                            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                                {el.title}
-                            </NavigationMenuLink>
-                        </Link> : <><NavigationMenuTrigger>{el.title}</NavigationMenuTrigger>
-                            <NavigationMenuContent>
-                                <ul className="w-[350px] p-4">
-                                    {el.subs!.map((el) => (
-                                        <ListItem
-                                            key={el.title}
-                                            title={el.title}
-                                            href={el.slug}
-                                        >
-                                        </ListItem>
-                                    ))}
-                                </ul>
-                            </NavigationMenuContent></>}
-                    </NavigationMenuItem>))}
-                </NavigationMenuList>
-            </NavigationMenu>
+            <div className="flex items-center gap-2">
+                <div className='flex items-center'>
+                    <TooltipProvider>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <Button className='hover:bg-accent hover:text-accent-foreground' variant={'link'}>
+                                    <Heart className="" />
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent className="TooltipContent mt-1">
+                                Danh sách tin đã lưu
+                            </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
+
+                    <Button className='hover:bg-accent hover:text-accent-foreground hover:no-underline' variant={'link'}>Đăng nhập</Button>
+                    <div className='border-l border-l-stone-400 h-4'></div>
+                    <Button className='hover:bg-accent hover:text-accent-foreground hover:no-underline' variant={'link'}>Đăng ký</Button>
+                </div>
+                <Button variant={'outline'}>Đăng tin</Button>
+            </div>
         </div>
     )
 }
