@@ -1,20 +1,15 @@
 import appLogo from '@/assets/logo.svg'
 import { cn } from "@/lib/utils"
-import {
-    NavigationMenu,
-    NavigationMenuContent,
-    NavigationMenuItem,
-    NavigationMenuLink,
-    NavigationMenuList,
-    NavigationMenuTrigger,
-    navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu"
+import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, navigationMenuTriggerStyle } from "@/components/ui/navigation-menu"
 import { forwardRef } from "react"
 import { Link } from 'react-router-dom'
 import slugify from 'slugify'
 import { Button } from '@/components/ui/button'
 import { Heart } from 'lucide-react'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 
 type subType = {
     title: string,
@@ -122,10 +117,83 @@ const Header = () => {
                             </TooltipContent>
                         </Tooltip>
                     </TooltipProvider>
-
-                    <Button className='hover:bg-accent hover:text-accent-foreground hover:no-underline' variant={'link'}>Đăng nhập</Button>
+                    <Dialog>
+                        <DialogTrigger asChild>
+                            <Button className='hover:bg-accent hover:text-accent-foreground hover:no-underline' variant={'link'}>Đăng nhập</Button>
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-[425px]">
+                            <DialogHeader>
+                                <DialogTitle>Đăng nhập</DialogTitle>
+                                <DialogDescription>
+                                    Make changes to your profile here. Click save when you're done.
+                                </DialogDescription>
+                            </DialogHeader>
+                            <div className="grid gap-4 py-4">
+                                <div className="grid grid-cols-4 items-center gap-4">
+                                    <Label htmlFor="name" className="text-right">
+                                        Name
+                                    </Label>
+                                    <Input
+                                        id="name"
+                                        defaultValue="Pedro Duarte"
+                                        className="col-span-3"
+                                    />
+                                </div>
+                                <div className="grid grid-cols-4 items-center gap-4">
+                                    <Label htmlFor="username" className="text-right">
+                                        Username
+                                    </Label>
+                                    <Input
+                                        id="username"
+                                        defaultValue="@peduarte"
+                                        className="col-span-3"
+                                    />
+                                </div>
+                            </div>
+                            <DialogFooter>
+                                <Button type="submit">Save changes</Button>
+                            </DialogFooter>
+                        </DialogContent>
+                    </Dialog>
                     <div className='border-l border-l-stone-400 h-4'></div>
-                    <Button className='hover:bg-accent hover:text-accent-foreground hover:no-underline' variant={'link'}>Đăng ký</Button>
+                    <Dialog>
+                        <DialogTrigger asChild>
+                            <Button className='hover:bg-accent hover:text-accent-foreground hover:no-underline' variant={'link'}>Đăng ký</Button>
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-[425px]">
+                            <DialogHeader>
+                                <DialogTitle>Đăng ký</DialogTitle>
+                                <DialogDescription>
+                                    Make changes to your profile here. Click save when you're done.
+                                </DialogDescription>
+                            </DialogHeader>
+                            <div className="grid gap-4 py-4">
+                                <div className="grid grid-cols-4 items-center gap-4">
+                                    <Label htmlFor="name" className="text-right">
+                                        Name
+                                    </Label>
+                                    <Input
+                                        id="name"
+                                        defaultValue="Pedro Duarte"
+                                        className="col-span-3"
+                                    />
+                                </div>
+                                <div className="grid grid-cols-4 items-center gap-4">
+                                    <Label htmlFor="username" className="text-right">
+                                        Username
+                                    </Label>
+                                    <Input
+                                        id="username"
+                                        defaultValue="@peduarte"
+                                        className="col-span-3"
+                                    />
+                                </div>
+                            </div>
+                            <DialogFooter>
+                                <Button type="submit">Save changes</Button>
+                            </DialogFooter>
+                        </DialogContent>
+                    </Dialog>
                 </div>
                 <Button variant={'outline'}>Đăng tin</Button>
             </div>
