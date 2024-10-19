@@ -10,7 +10,8 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-
+import Login from './login'
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
 type subType = {
     title: string,
     slug: string
@@ -121,38 +122,18 @@ const Header = () => {
                         <DialogTrigger asChild>
                             <Button className='hover:bg-accent hover:text-accent-foreground hover:no-underline' variant={'link'}>Đăng nhập</Button>
                         </DialogTrigger>
-                        <DialogContent className="sm:max-w-[425px]">
-                            <DialogHeader>
-                                <DialogTitle>Đăng nhập</DialogTitle>
-                                <DialogDescription>
-                                    Make changes to your profile here. Click save when you're done.
-                                </DialogDescription>
-                            </DialogHeader>
-                            <div className="grid gap-4 py-4">
-                                <div className="grid grid-cols-4 items-center gap-4">
-                                    <Label htmlFor="name" className="text-right">
-                                        Name
-                                    </Label>
-                                    <Input
-                                        id="name"
-                                        defaultValue="Pedro Duarte"
-                                        className="col-span-3"
-                                    />
-                                </div>
-                                <div className="grid grid-cols-4 items-center gap-4">
-                                    <Label htmlFor="username" className="text-right">
-                                        Username
-                                    </Label>
-                                    <Input
-                                        id="username"
-                                        defaultValue="@peduarte"
-                                        className="col-span-3"
-                                    />
-                                </div>
-                            </div>
-                            <DialogFooter>
-                                <Button type="submit">Save changes</Button>
-                            </DialogFooter>
+                        <DialogContent className="min-w-[700px] min-h-[576px] p-0">
+                            <VisuallyHidden asChild>
+                                <DialogHeader>
+                                    <DialogTitle>Đăng nhập</DialogTitle>
+                                    <DialogDescription>
+                                        Make changes to your profile here. Click save when you're done.
+                                    </DialogDescription>
+                                </DialogHeader>
+                            </VisuallyHidden>
+
+                            <Login />
+
                         </DialogContent>
                     </Dialog>
                     <div className='border-l border-l-stone-400 h-4'></div>
