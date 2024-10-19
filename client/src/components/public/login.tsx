@@ -1,8 +1,29 @@
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import appLogo from '@/assets/logo.svg'
 import loginLogo from '@/assets/login.png'
+import { z } from "zod"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import { Button } from "@/components/ui/button"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 const Login = () => {
+    const formSchema = z.object({
+        emailOrPhone: z.string({ required_error: 'Tên đăng nhập không được để trống' }),
+        password: z.string({ required_error: 'Mật khẩu không được để trống' }),
+    })
+    // 1. Define your form.
+    const form = useForm<z.infer<typeof formSchema>>({
+        resolver: zodResolver(formSchema),
+        defaultValues: {
+            emailOrPhone: undefined,
+            password: undefined
+        },
+    })
+    const onSubmit = (values: z.infer<typeof formSchema>) => {
+        // Do something with the form values.
+        // ✅ This will be type-safe and validated.
+        console.log(values)
+    }
     return (
         <div className="grid grid-cols-10">
             <div className="col-span-4 bg-[#ffeceb] rounded-tl-[8px] rounded-bl-[8px] pt-8 flex flex-col">
@@ -15,7 +36,46 @@ const Login = () => {
                     </div>
                 </div>
             </div>
-            <div className="col-span-6">login</div>
+            <div className="col-span-6">
+                <div className="p-8 flex justify-center flex-col h-full min-h-[650px]">
+                    <div>
+                        <h5 className="text-base font-medium text-[#2c2c2c]">Xin chào bạn</h5>
+                        <h3 className="mt-1 mb-6 text-2xl font-medium text-[#2c2c2c] tracking-tighter">Đăng nhập để tiếp tục</h3>
+                        <Form {...form}>
+                            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                                <FormField
+                                    control={form.control}
+                                    name="emailOrPhone"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Email hoặc Số điện thoại</FormLabel>
+                                            <FormControl>
+                                                <Input className="focus-visible:ring-[#ffeceb]" placeholder="shadcn" {...field} />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="password"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Mật khẩu</FormLabel>
+                                            <FormControl>
+                                                <Input className="focus-visible:ring-[#ffeceb]" type="password" placeholder="shadcn" {...field} />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                                <Button type="submit">Submit</Button>
+                            </form>
+                        </Form>
+                    </div>
+                    <div></div>
+                </div>
+            </div>
         </div>
     )
 }
