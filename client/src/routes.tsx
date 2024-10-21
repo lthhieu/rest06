@@ -1,7 +1,11 @@
 import { RouteObject } from "react-router-dom"
-import App from "./App"
-import { paths } from "./lib/paths"
-import { Home, Layout, News, Rent, Sold } from "./pages/public"
+import App from "@/App"
+import { paths } from "@/lib/paths"
+import Layout from "@/pages/public/layout"
+import Home from "@/pages/public/home"
+import News from "@/pages/public/news"
+import Rent from "@/pages/public/rent"
+import Sold from "@/pages/public/sold"
 
 const routes: RouteObject[] = [
     {
