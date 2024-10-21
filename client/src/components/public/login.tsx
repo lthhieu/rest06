@@ -6,17 +6,18 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import InputPassword from "@/components/ui/input-password"
 const Login = () => {
     const formSchema = z.object({
-        emailOrPhone: z.string({ required_error: 'Tên đăng nhập không được để trống' }),
-        password: z.string({ required_error: 'Mật khẩu không được để trống' }),
+        emailOrPhone: z.string().min(1, 'Tên đăng nhập không được để trống'),
+        password: z.string().min(1, 'Mật khẩu không được để trống'),
     })
     // 1. Define your form.
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            emailOrPhone: undefined,
-            password: undefined
+            emailOrPhone: '',
+            password: ''
         },
     })
     const onSubmit = (values: z.infer<typeof formSchema>) => {
@@ -50,7 +51,7 @@ const Login = () => {
                                         <FormItem>
                                             <FormLabel>Email hoặc Số điện thoại</FormLabel>
                                             <FormControl>
-                                                <Input className="focus-visible:ring-[#ffeceb]" placeholder="shadcn" {...field} />
+                                                <Input className="focus-visible:ring-[#ffeceb]" placeholder="Nhập tên đăng nhập" {...field} />
                                             </FormControl>
                                             <FormMessage />
                                         </FormItem>
@@ -63,7 +64,8 @@ const Login = () => {
                                         <FormItem>
                                             <FormLabel>Mật khẩu</FormLabel>
                                             <FormControl>
-                                                <Input className="focus-visible:ring-[#ffeceb]" type="password" placeholder="shadcn" {...field} />
+                                                <InputPassword className="focus-visible:ring-[#ffeceb]" placeholder="Nhập mật khẩu" {...field}
+                                                />
                                             </FormControl>
                                             <FormMessage />
                                         </FormItem>
