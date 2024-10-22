@@ -1,23 +1,38 @@
 import { Input } from "@/components/ui/input"
 import appLogo from '@/assets/logo.svg'
 import loginLogo from '@/assets/login.png'
-import { z } from "zod"
+import { boolean, z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import InputPassword from "@/components/ui/input-password"
-const Login = () => {
+import logoGoogle from '@/assets/google.svg'
+import { useEffect, useState } from "react"
+type loginType = {
+    isSignIn?: boolean
+}
+const Login = (props: loginType) => {
+    const [isSignIn, setIsSignIn] = useState<string>('SignIn')
+    useEffect(() => {
+        if (props?.isSignIn == undefined) {
+            setIsSignIn('SignIn')
+        } else {
+            setIsSignIn('SignUp')
+        }
+    }, [])
     const formSchema = z.object({
         emailOrPhone: z.string().min(1, 'Tên đăng nhập không được để trống'),
         password: z.string().min(1, 'Mật khẩu không được để trống'),
+        phoneRegister: z.string().min(1, 'Số điện thoại không được để trống'),
     })
     // 1. Define your form.
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             emailOrPhone: '',
-            password: ''
+            password: '',
+            phoneRegister: ''
         },
     })
     const onSubmit = (values: z.infer<typeof formSchema>) => {
@@ -38,44 +53,78 @@ const Login = () => {
                 </div>
             </div>
             <div className="col-span-6">
-                <div className="p-8 flex justify-center flex-col h-full min-h-[650px]">
+                <div className="p-8 flex justify-center flex-col h-full min-h-[550px]">
                     <div>
                         <h5 className="text-base font-medium text-[#2c2c2c]">Xin chào bạn</h5>
-                        <h3 className="mt-1 mb-6 text-2xl font-medium text-[#2c2c2c] tracking-tighter">Đăng nhập để tiếp tục</h3>
+                        <h3 className="mt-1 mb-6 text-2xl font-medium text-[#2c2c2c] tracking-tighter">{isSignIn === 'SignIn' ? 'Đăng nhập để tiếp tục' : 'Đăng ký tài khoản mới'}</h3>
                         <Form {...form}>
                             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                                <FormField
-                                    control={form.control}
-                                    name="emailOrPhone"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>Email hoặc Số điện thoại</FormLabel>
-                                            <FormControl>
-                                                <Input className="focus-visible:ring-[#ffeceb]" placeholder="Nhập tên đăng nhập" {...field} />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={form.control}
-                                    name="password"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>Mật khẩu</FormLabel>
-                                            <FormControl>
-                                                <InputPassword className="focus-visible:ring-[#ffeceb]" placeholder="Nhập mật khẩu" {...field}
-                                                />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <Button type="submit">Submit</Button>
+                                {isSignIn === 'SignIn' ?
+                                    <><FormField
+                                        control={form.control}
+                                        name="emailOrPhone"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>Email hoặc Số điện thoại</FormLabel>
+                                                <FormControl>
+                                                    <Input className="focus-visible:ring-[#ffeceb]" {...field} />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                        <FormField
+                                            control={form.control}
+                                            name="password"
+                                            render={({ field }) => (
+                                                <FormItem>
+                                                    <FormLabel>Mật khẩu</FormLabel>
+                                                    <FormControl>
+                                                        <InputPassword className="focus-visible:ring-[#ffeceb]" {...field}
+                                                        />
+                                                    </FormControl>
+                                                    <FormMessage />
+                                                </FormItem>
+                                            )}
+                                        /></> : <FormField
+                                        control={form.control}
+                                        name="phoneRegister"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>Số điện thoại</FormLabel>
+                                                <FormControl>
+                                                    <Input className="focus-visible:ring-[#ffeceb]" {...field} />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />}
+                                <Button size={"lg"} variant={"destructive"} className="w-full" type="submit">{isSignIn === 'SignIn' ? 'Đăng nhập' : 'Tiếp tục'}</Button>
                             </form>
                         </Form>
                     </div>
-                    <div></div>
+                    <div className="relative w-full flex items-center justify-center mt-5 mb-4">
+                        <div className="w-full h-[1px] bg-[#f1f1f1]"></div>
+                        <div className="absolute bg-[#fff] px-2 py-1"><span className="text-[#999] text-sm font-normal font-[roboto]">Hoặc</span></div>
+                    </div>
+                    <div className="w-full mt-2">
+                        <Button className="w-full" variant={"outline"} size={"lg"}>
+                            <div className="flex items-center justify-center gap-2">
+                                <img src={logoGoogle} alt="Logo Google" width={18} height={18} />
+                                <span className="text-[#2c2c2c]">Đăng nhập với Google</span>
+                            </div>
+                        </Button>
+                    </div>
+                    <div className="mt-6 text-center text-[#999999] text-[12px] font-[roboto] font-normal">
+                        Bằng việc tiếp tục, bạn đồng ý với <span className="text-[#e03c31]">Điều khoản sử dụng, Chính sách bảo mật, Quy chế, Chính sách</span> của chúng tôi.
+                    </div>
+                    <div className="mt-6 text-center">
+                        {isSignIn === 'SignIn' ? <div className="font-[roboto] font-normal text-sm text-[#2c2c2c]">
+                            Chưa là thành viên? <span onClick={() => { setIsSignIn('SignUp'); form.reset() }} className="text-[#e03c31] cursor-pointer font-medium">Đăng ký</span> tại đây
+                        </div> : <div className="font-[roboto] font-normal text-sm text-[#2c2c2c]">
+                            Đã có tài khoản? <span onClick={() => { setIsSignIn('SignIn'); form.reset() }} className="text-[#e03c31] cursor-pointer font-medium">Đăng nhập</span> tại đây
+                        </div>}
+                    </div>
                 </div>
             </div>
         </div>
