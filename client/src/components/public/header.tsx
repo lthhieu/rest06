@@ -7,11 +7,9 @@ import slugify from 'slugify'
 import { Button } from '@/components/ui/button'
 import { Heart } from 'lucide-react'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
-import Login from '@/components/public/login'
+import LoginOrRegister from '@/components/public/login-or-register'
 type subType = {
     title: string,
     slug: string
@@ -132,7 +130,7 @@ const Header = () => {
                                 </DialogHeader>
                             </VisuallyHidden>
 
-                            <Login />
+                            <LoginOrRegister isSignIn={true} />
 
                         </DialogContent>
                     </Dialog>
@@ -151,7 +149,7 @@ const Header = () => {
                                 </DialogHeader>
                             </VisuallyHidden>
 
-                            <Login isSignIn={false} />
+                            <LoginOrRegister isSignIn={false} />
 
                         </DialogContent>
                     </Dialog>
