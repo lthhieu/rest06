@@ -1,7 +1,7 @@
 import appLogo from '@/assets/logo.svg'
 import { cn } from "@/lib/utils"
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, navigationMenuTriggerStyle } from "@/components/ui/navigation-menu"
-import { forwardRef } from "react"
+import { forwardRef, useState } from "react"
 import { Link } from 'react-router-dom'
 import slugify from 'slugify'
 import { Button } from '@/components/ui/button'
@@ -70,6 +70,7 @@ const nav: navigationType[] = [
 ]
 
 const Header = () => {
+    const [open, setOpen] = useState(false);
     return (
         <div className="w-full h-24 px-[15px] py-[17px] bg-[#fff] shadow-[0_4px_10px_rgba(182,182,182,0.18)] flex items-center justify-between">
             <div className='flex items-center'>
@@ -116,7 +117,7 @@ const Header = () => {
                             </TooltipContent>
                         </Tooltip>
                     </TooltipProvider>
-                    <Dialog>
+                    <Dialog open={open} onOpenChange={setOpen}>
                         <DialogTrigger asChild>
                             <Button className='hover:bg-accent hover:text-accent-foreground hover:no-underline' variant={'link'}>Đăng nhập</Button>
                         </DialogTrigger>
@@ -130,12 +131,12 @@ const Header = () => {
                                 </DialogHeader>
                             </VisuallyHidden>
 
-                            <LoginOrRegister isSignIn={true} />
+                            <LoginOrRegister setOpen={setOpen} isSignIn={true} />
 
                         </DialogContent>
                     </Dialog>
                     <div className='border-l border-l-stone-400 h-4'></div>
-                    <Dialog>
+                    <Dialog open={open} onOpenChange={setOpen}>
                         <DialogTrigger asChild>
                             <Button className='hover:bg-accent hover:text-accent-foreground hover:no-underline' variant={'link'}>Đăng ký</Button>
                         </DialogTrigger>
@@ -149,7 +150,7 @@ const Header = () => {
                                 </DialogHeader>
                             </VisuallyHidden>
 
-                            <LoginOrRegister isSignIn={false} />
+                            <LoginOrRegister setOpen={setOpen} isSignIn={false} />
 
                         </DialogContent>
                     </Dialog>

@@ -5,11 +5,15 @@ import logoGoogle from '@/assets/google.svg'
 import { useEffect, useState } from "react"
 import LoginForm from "@/components/public/login-form"
 import RegisterForm from "@/components/public/register-form"
+import { useGoogleLogin } from '@react-oauth/google'
+import axios from 'axios'
 type loginType = {
-    isSignIn: boolean
+    isSignIn: boolean,
+    setOpen: (v: boolean) => void
 }
 const LoginOrRegister = (props: loginType) => {
     const [isSignIn, setIsSignIn] = useState<string>('SignIn')
+    const { setOpen } = props
     useEffect(() => {
         if (props.isSignIn === true) {
             setIsSignIn('SignIn')
@@ -17,6 +21,22 @@ const LoginOrRegister = (props: loginType) => {
             setIsSignIn('SignUp')
         }
     }, [])
+    const login = useGoogleLogin({
+        onSuccess: async tokenResponse => {
+            console.log(tokenResponse)
+            const token = tokenResponse.access_token;
+            // fetching userinfo can be done on the client or the server
+            const userInfo = await axios
+                .get('https://www.googleapis.com/oauth2/v3/userinfo',
+                    {
+                        headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
+                    })
+            const result = userInfo.data;
+            console.log(result)
+            // contains name, email & googleId(sub)
+            setOpen(false)
+        },
+    });
     return (
         <div className="grid grid-cols-10">
             <div className="col-span-4 bg-[#ffeceb] rounded-tl-[8px] rounded-bl-[8px] pt-8 flex flex-col">
@@ -45,7 +65,7 @@ const LoginOrRegister = (props: loginType) => {
                         <div className="absolute bg-[#fff] px-2 py-1"><span className="text-[#999] text-sm font-normal font-[roboto]">Hoặc</span></div>
                     </div>
                     <div className="w-full mt-2">
-                        <Button className="w-full" variant={"outline"} size={"lg"}>
+                        <Button onClick={() => login()} className="w-full" variant={"outline"} size={"lg"}>
                             <div className="flex items-center justify-center gap-2">
                                 <img src={logoGoogle} alt="Logo Google" width={18} height={18} />
                                 <span className="text-[#2c2c2c]">Đăng nhập với Google</span>
