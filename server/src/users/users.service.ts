@@ -13,8 +13,8 @@ export class UsersService {
   ) { }
 
   async create(createUserDto: CreateUserDto): Promise<User> {
-    const { firstName, lastName } = createUserDto
-    const user = this.usersRepository.create({ firstName, lastName });
+    const { full_name } = createUserDto
+    const user = this.usersRepository.create({ full_name });
     return this.usersRepository.save(user);
   }
 

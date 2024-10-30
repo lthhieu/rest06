@@ -1,4 +1,3 @@
 export class CreateUserDto {
-    firstName: string;
-    lastName: string
+    full_name: string;
 }

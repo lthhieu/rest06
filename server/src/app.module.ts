@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmConfigService } from './configs/databases/config.service';
+import { PricingsModule } from './pricings/pricings.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { TypeOrmConfigService } from './configs/databases/config.service';
       useClass: TypeOrmConfigService
     }),
     UsersModule,
+    PricingsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
