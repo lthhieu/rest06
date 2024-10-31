@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Pricing } from 'src/pricings/entities/pricing.entity';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 
 @Entity()
 export class User {
@@ -12,13 +13,13 @@ export class User {
     phone: string;
 
     @Column({ type: 'varchar', nullable: false })
-    full_name: string;
+    fullName: string;
 
     @Column({ type: 'boolean', default: false })
-    is_verified_email: boolean;
+    isVerifiedEmail: boolean;
 
     @Column({ type: 'boolean', default: false })
-    is_verified_phone: boolean;
+    isVerifiedPhone: boolean;
 
     @Column({ type: 'varchar', nullable: false })
     password: string;
@@ -33,8 +34,14 @@ export class User {
     score: number;
 
     @Column({ type: 'varchar' })
-    reset_pwd_token: string;
+    resetPwdToken: string;
 
     @Column({ type: 'timestamptz' })
-    reset_pwd_expire: string;
+    resetPwdExpire: string;
+
+    @ManyToOne(() => Pricing, (pricing) => pricing.id, {
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE'
+    })
+    pricing: Pricing
 }
