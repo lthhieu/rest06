@@ -1,14 +1,25 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+export enum PricingNames {
+    NORMAL = "Thường",
+    BRONZE = "Đồng",
+    SILVER = "Bạc",
+    GOLD = "Vàng",
+    DIAMOND = "Kim cương"
+}
 @Entity()
 export class Pricing {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({ type: 'varchar' })
-    name: string;
+    @Column({
+        type: "enum",
+        enum: PricingNames,
+        default: PricingNames.NORMAL,
+    })
+    name: PricingNames;
 
-    @Column({ type: 'varchar', nullable: false })
-    isShowImmediately: string;
+    @Column({ type: 'boolean', default: false })
+    isShowImmediately: boolean;
 
     @Column({ type: 'boolean', default: false })
     isShowDescription: boolean;
@@ -20,8 +31,14 @@ export class Pricing {
     requiredScore: number;
 
     @Column({ type: 'integer', default: 0 })
-    price: number;
+    requiredScoreNextLevel: number;
+
+    @Column({ type: 'bigint', default: 0 })
+    price: bigint;
 
     @Column({ type: 'integer', default: 0 })
     expiredDay: number;
+
+    @Column({ type: 'varchar' })
+    imgUrl: string;
 }

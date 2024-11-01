@@ -1,6 +1,11 @@
 import { Pricing } from 'src/pricings/entities/pricing.entity';
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 
+export enum TypeNames {
+    SYSTEM = "system",
+    GOOGLE = "google"
+}
+
 @Entity()
 export class User {
     @PrimaryGeneratedColumn()
@@ -26,6 +31,13 @@ export class User {
 
     @Column({ type: 'varchar' })
     avatar: string;
+
+    @Column({
+        type: "enum",
+        enum: TypeNames,
+        default: TypeNames.SYSTEM,
+    })
+    type: TypeNames;
 
     @Column({ type: 'bigint', default: 0 })
     balance: bigint;
