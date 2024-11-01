@@ -1,11 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-export enum PricingNames {
-    NORMAL = "Thường",
-    BRONZE = "Đồng",
-    SILVER = "Bạc",
-    GOLD = "Vàng",
-    DIAMOND = "Kim cương"
-}
+
+export type PricingNameTypes = "Thường" | "Đồng" | "Bạc" | "Vàng" | "Kim cương"
 @Entity()
 export class Pricing {
     @PrimaryGeneratedColumn()
@@ -13,10 +8,10 @@ export class Pricing {
 
     @Column({
         type: "enum",
-        enum: PricingNames,
-        default: PricingNames.NORMAL,
+        enum: ["Thường", "Đồng", "Bạc", "Vàng", "Kim cương"],
+        default: "Thường",
     })
-    name: PricingNames;
+    name: PricingNameTypes;
 
     @Column({ type: 'boolean', default: false })
     isShowImmediately: boolean;

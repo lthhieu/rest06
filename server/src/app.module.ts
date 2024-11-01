@@ -6,7 +6,7 @@ import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmConfigService } from './configs/databases/config.service';
 import { PricingsModule } from './pricings/pricings.module';
-
+import { PostsModule } from './posts/posts.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -15,6 +15,7 @@ import { PricingsModule } from './pricings/pricings.module';
     }),
     UsersModule,
     PricingsModule,
+    PostsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
