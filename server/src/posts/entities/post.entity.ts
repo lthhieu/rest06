@@ -1,5 +1,6 @@
+import { Tag } from 'src/tags/entities/tag.entity';
 import { User } from 'src/users/entities/user.entity';
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, ManyToMany, JoinTable } from 'typeorm';
 export type ListingTypes = "Bán" | "Cho thuê"
 export type PropertyTypes = "Căn hộ chung cư" | "Nhà mặt phố" | "Nhà riêng" | "Nhà phố thương mại" | "Biệt thự" | "Đất nền" | "Bán đất" | "Trang trại" | "Khu nghỉ dưỡng" | "Kho" | "Nhà xưởng" | "Khác"
 export type DirectionTypes = "Bắc" | "Đông - Bắc" | "Đông" | "Đông - Nam" | "Nam" | "Tây - Nam" | "Tây" | "Tây - Bắc"
@@ -102,6 +103,9 @@ export class Post {
         onDelete: 'SET NULL',
         onUpdate: 'CASCADE'
     })
-    user: User
+    user: User;
 
+    @ManyToMany(() => Tag, (tag) => tag.posts)
+    @JoinTable()
+    tags: Tag[]
 }
