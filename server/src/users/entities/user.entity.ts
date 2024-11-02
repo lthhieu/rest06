@@ -1,5 +1,6 @@
+import { Post } from 'src/posts/entities/post.entity';
 import { Pricing } from 'src/pricings/entities/pricing.entity';
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, ManyToMany } from 'typeorm';
 
 export enum TypeNames {
     SYSTEM = "system",
@@ -56,4 +57,8 @@ export class User {
         onUpdate: 'CASCADE'
     })
     pricing: Pricing
+
+    @ManyToMany(() => Post, (post) => post.users)
+    posts: Post[]
+
 }

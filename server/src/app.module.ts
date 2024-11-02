@@ -8,6 +8,8 @@ import { TypeOrmConfigService } from './configs/databases/config.service';
 import { PricingsModule } from './pricings/pricings.module';
 import { PostsModule } from './posts/posts.module';
 import { TagsModule } from './tags/tags.module';
+import { RatingsModule } from './ratings/ratings.module';
+import { CommentsModule } from './comments/comments.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -18,6 +20,8 @@ import { TagsModule } from './tags/tags.module';
     PricingsModule,
     PostsModule,
     TagsModule,
+    RatingsModule,
+    CommentsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

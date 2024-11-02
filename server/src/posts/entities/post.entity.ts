@@ -105,7 +105,15 @@ export class Post {
     })
     user: User;
 
-    @ManyToMany(() => Tag, (tag) => tag.posts)
+    @ManyToMany(() => Tag, (tag) => tag.posts, {
+        cascade: true
+    })
     @JoinTable()
     tags: Tag[]
+
+    @ManyToMany(() => User, (user) => user.posts, {
+        cascade: true
+    })
+    @JoinTable({ name: 'wishlist' })
+    users: User[]
 }
