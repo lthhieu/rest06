@@ -10,18 +10,20 @@ import { PostsModule } from './posts/posts.module';
 import { TagsModule } from './tags/tags.module';
 import { RatingsModule } from './ratings/ratings.module';
 import { CommentsModule } from './comments/comments.module';
+import { AuthModule } from './auth/auth.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    TypeOrmModule.forRootAsync({
-      useClass: TypeOrmConfigService
-    }),
-    UsersModule,
-    PricingsModule,
-    PostsModule,
-    TagsModule,
-    RatingsModule,
-    CommentsModule,
+    // TypeOrmModule.forRootAsync({
+    //   useClass: TypeOrmConfigService
+    // }),
+    // UsersModule,
+    // PricingsModule,
+    // PostsModule,
+    // TagsModule,
+    // RatingsModule,
+    // CommentsModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
