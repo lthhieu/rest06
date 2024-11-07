@@ -15,7 +15,7 @@ export class User {
     @Column({ type: 'varchar' })
     email: string;
 
-    @Column({ type: 'varchar' })
+    @Column({ type: 'varchar', nullable: true })
     phone: string;
 
     @Column({ type: 'varchar', nullable: false })
@@ -27,7 +27,7 @@ export class User {
     @Column({ type: 'boolean', default: false })
     isVerifiedPhone: boolean;
 
-    @Column({ type: 'varchar', nullable: false })
+    @Column({ type: 'varchar', nullable: true })
     password: string;
 
     @Column({ type: 'varchar' })
@@ -46,10 +46,10 @@ export class User {
     @Column({ type: 'integer', default: 0 })
     score: number;
 
-    @Column({ type: 'varchar' })
+    @Column({ type: 'varchar', nullable: true })
     resetPwdToken: string;
 
-    @Column({ type: 'timestamptz' })
+    @Column({ type: 'timestamptz', nullable: true })
     resetPwdExpire: string;
 
     @ManyToOne(() => Pricing, (pricing) => pricing.id, {

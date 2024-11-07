@@ -14,15 +14,15 @@ import { AuthModule } from './auth/auth.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    // TypeOrmModule.forRootAsync({
-    //   useClass: TypeOrmConfigService
-    // }),
-    // UsersModule,
-    // PricingsModule,
-    // PostsModule,
-    // TagsModule,
-    // RatingsModule,
-    // CommentsModule,
+    TypeOrmModule.forRootAsync({
+      useClass: TypeOrmConfigService
+    }),
+    UsersModule,
+    PricingsModule,
+    PostsModule,
+    TagsModule,
+    RatingsModule,
+    CommentsModule,
     AuthModule,
   ],
   controllers: [AppController],

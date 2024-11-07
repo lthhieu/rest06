@@ -5,7 +5,7 @@ import { AuthDataGoogleDto } from './dto/auth-data-google.dto';
 @Controller('auth')
 export class AuthController {
     constructor(private readonly authService: AuthService) { }
-    @Post()
+    @Post('login-with-google')
     getTokenByGoogle(@Body() data: AuthDataGoogleDto) {
         return this.authService.getTokenByGoogle(data);
     }

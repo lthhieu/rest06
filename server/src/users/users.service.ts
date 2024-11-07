@@ -2,8 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from './entities/user.entity';
+import { TypeNames, User } from './entities/user.entity';
 import { Repository } from 'typeorm';
+import { AuthDataGoogleDto } from 'src/auth/dto/auth-data-google.dto';
 
 @Injectable()
 export class UsersService {
@@ -32,5 +33,14 @@ export class UsersService {
 
   async remove(id: number): Promise<void> {
     await this.usersRepository.delete(id);
+  }
+
+  async findOneByEmail(email: string): Promise<User | null> {
+    return this.usersRepository.findOneBy({ email });
+  }
+  async createWithGoogle(data: AuthDataGoogleDto): Promise<User | null> {
+    const { email, image, name } = data
+    const newUser = this.usersRepository.create({ email, fullName: name, avatar: image, type: TypeNames.GOOGLE });
+    return this.usersRepository.save(newUser);
   }
 }
