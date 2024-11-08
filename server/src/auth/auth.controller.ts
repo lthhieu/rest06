@@ -7,6 +7,6 @@ export class AuthController {
     constructor(private readonly authService: AuthService) { }
     @Post('login-with-google')
     getTokenByGoogle(@Body() data: AuthDataGoogleDto) {
-        return this.authService.getTokenByGoogle(data);
+        return this.authService.loginWithGoogle(data);
     }
 }
