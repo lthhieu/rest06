@@ -3,6 +3,8 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { RegisterUserDto } from './dto/register-user.dto';
+import { Public } from 'src/configs/decorators/public.decorator';
 
 @Controller('users')
 export class UsersController {
@@ -33,4 +35,11 @@ export class UsersController {
   remove(@Param('id') id: string) {
     return this.usersService.remove(+id);
   }
+
+  @Public()
+  @Post('register')
+  register(@Body() registerUserDto: RegisterUserDto) {
+    return this.usersService.register(registerUserDto);
+  }
+
 }

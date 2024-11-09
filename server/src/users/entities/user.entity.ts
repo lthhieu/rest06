@@ -12,13 +12,13 @@ export class User {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({ type: 'varchar' })
+    @Column({ type: 'varchar', nullable: true })
     email: string;
 
     @Column({ type: 'varchar', nullable: true })
     phone: string;
 
-    @Column({ type: 'varchar', nullable: false })
+    @Column({ type: 'varchar', nullable: true })
     fullName: string;
 
     @Column({ type: 'boolean', default: false })
@@ -30,7 +30,7 @@ export class User {
     @Column({ type: 'varchar', nullable: true })
     password: string;
 
-    @Column({ type: 'varchar' })
+    @Column({ type: 'varchar', nullable: true })
     avatar: string;
 
     @Column({
