@@ -22,14 +22,13 @@ const LoginOrRegister = (props: loginType) => {
         }
     }, [])
     const login = useGoogleLogin({
-        onSuccess: async tokenResponse => {
-            console.log(tokenResponse)
-            const token = tokenResponse.access_token;
+        onSuccess: async response => {
+            const token = response.access_token;
             // fetching userinfo can be done on the client or the server
             const userInfo = await axios
                 .get('https://www.googleapis.com/oauth2/v3/userinfo',
                     {
-                        headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
+                        headers: { Authorization: `Bearer ${token}` },
                     })
             const result = userInfo.data;
             console.log(result)
