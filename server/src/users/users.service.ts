@@ -25,8 +25,11 @@ export class UsersService {
     return this.usersRepository.find();
   }
 
-  findOne(id: number): Promise<User | null> {
-    return this.usersRepository.findOneBy({ id });
+  async findOne(id: number): Promise<Omit<User, "password"> | null> {
+    const user = await this.usersRepository.findOneBy({ id });
+    if (!user) return null
+    const { password, ...result } = user
+    return result
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
@@ -58,6 +61,9 @@ export class UsersService {
   async register(registerUserDto: RegisterUserDto): Promise<any> {
     const { phone } = registerUserDto
     const user = this.usersRepository.create({ fullName: phone, phone, password: await this.hashPassword('123456') });
-    return this.usersRepository.save(user);
+    const saveUser = await this.usersRepository.save(user);
+    if (!saveUser) return null
+    const { password, ...result } = saveUser
+    return result
   }
 }
