@@ -7,6 +7,12 @@ export enum TypeNames {
     GOOGLE = "google"
 }
 
+
+export enum RoleNames {
+    ADMIN = "admin",
+    USER = "user"
+}
+
 @Entity()
 export class User {
     @PrimaryGeneratedColumn()
@@ -39,6 +45,13 @@ export class User {
         default: TypeNames.SYSTEM,
     })
     type: TypeNames;
+
+    @Column({
+        type: "enum",
+        enum: RoleNames,
+        default: RoleNames.USER,
+    })
+    role: RoleNames;
 
     @Column({ type: 'bigint', default: 0 })
     balance: bigint;

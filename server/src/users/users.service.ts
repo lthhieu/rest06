@@ -41,6 +41,10 @@ export class UsersService {
     return this.usersRepository.findOneBy({ email });
   }
 
+  async findOneByPhone(phone: string): Promise<User | null> {
+    return this.usersRepository.findOneBy({ phone });
+  }
+
   async createWithGoogle(data: AuthDataGoogleDto): Promise<User | null> {
     const { email, image, name } = data
     const newUser = this.usersRepository.create({ email, fullName: name, avatar: image, type: TypeNames.GOOGLE });
