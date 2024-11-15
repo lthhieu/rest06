@@ -17,6 +17,9 @@ async function bootstrap() {
   //auto-validation
   app.useGlobalPipes(new ValidationPipe());
 
+  //cors error
+  app.enableCors({ origin: configService.get('FRONTEND_URI') ?? 'http://localhost:5173' });
+
   await app.listen(port);
   console.log(`Application is running on: ${port}`);
 }
