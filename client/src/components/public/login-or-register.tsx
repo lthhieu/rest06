@@ -7,10 +7,22 @@ import LoginForm from "@/components/public/login-form"
 import RegisterForm from "@/components/public/register-form"
 import { useGoogleLogin } from '@react-oauth/google'
 import axios from 'axios'
+import { apiLoginWithGoogle } from '@/apis/auth'
 type loginType = {
     isSignIn: boolean,
     setOpen: (v: boolean) => void
 }
+
+type googleType = {
+    email: string,
+    email_verified: boolean,
+    family_name: string,
+    given_name: string,
+    name: string,
+    picture: string,
+    sub: string,
+}
+
 const LoginOrRegister = (props: loginType) => {
     const [isSignIn, setIsSignIn] = useState<string>('SignIn')
     const { setOpen } = props
@@ -30,10 +42,16 @@ const LoginOrRegister = (props: loginType) => {
                     {
                         headers: { Authorization: `Bearer ${token}` },
                     })
-            const result = userInfo.data;
-            console.log(result)
-            // contains name, email & googleId(sub)
-            setOpen(false)
+            if (userInfo.status === 200) {
+                const result: googleType = userInfo.data;
+                const payload: IPayloadGoogle = {
+                    email: result.email, image: result.picture, name: result.name
+                }
+                const res = await apiLoginWithGoogle(payload)
+                console.log(res)
+                // contains name, email & googleId(sub)
+                setOpen(false)
+            }
         },
     });
     return (
