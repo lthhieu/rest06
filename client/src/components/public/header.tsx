@@ -71,6 +71,7 @@ const nav: navigationType[] = [
 
 const Header = () => {
     const [open, setOpen] = useState(false);
+    const [open2, setOpen2] = useState(false);
     return (
         <div className="w-full h-24 px-[15px] py-[17px] bg-[#fff] shadow-[0_4px_10px_rgba(182,182,182,0.18)] flex items-center justify-between">
             <div className='flex items-center'>
@@ -117,7 +118,7 @@ const Header = () => {
                             </TooltipContent>
                         </Tooltip>
                     </TooltipProvider>
-                    <Dialog open={open} onOpenChange={setOpen}>
+                    <Dialog open={open} onOpenChange={setOpen} >
                         <DialogTrigger asChild>
                             <Button className='hover:bg-accent hover:text-accent-foreground hover:no-underline' variant={'link'}>Đăng nhập</Button>
                         </DialogTrigger>
@@ -136,7 +137,7 @@ const Header = () => {
                         </DialogContent>
                     </Dialog>
                     <div className='border-l border-l-stone-400 h-4'></div>
-                    <Dialog open={open} onOpenChange={setOpen}>
+                    <Dialog open={open2} onOpenChange={setOpen2}>
                         <DialogTrigger asChild>
                             <Button className='hover:bg-accent hover:text-accent-foreground hover:no-underline' variant={'link'}>Đăng ký</Button>
                         </DialogTrigger>
