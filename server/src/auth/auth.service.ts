@@ -42,7 +42,7 @@ export class AuthService {
         return this.getToken(user)
     }
 
-    async getToken(user: User) {
+    async getToken(user: Omit<User, "password">) {
         const payload: Payload = { userId: user.id, role: user.role };
         return {
             access_token: this.jwtService.sign(payload),
