@@ -1,4 +1,4 @@
-import { NestFactory } from '@nestjs/core';
+import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
 import { ValidationPipe, VersioningType } from '@nestjs/common';
@@ -23,7 +23,7 @@ async function bootstrap() {
   app.enableCors({ origin: configService.get('FRONTEND_URI') ?? 'http://localhost:5173' });
 
   //transform interceptor
-  app.useGlobalInterceptors(new TransformInterceptor());
+  app.useGlobalInterceptors(new TransformInterceptor(new Reflector));
 
   await app.listen(port);
   console.log(`Application is running on: ${port}`);
