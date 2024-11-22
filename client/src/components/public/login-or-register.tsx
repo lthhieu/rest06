@@ -72,9 +72,9 @@ const LoginOrRegister = (props: loginType) => {
                         <h5 className="text-base font-medium text-[#2c2c2c]">Xin chào bạn</h5>
                         <h3 className="mt-1 mb-6 text-2xl font-medium text-[#2c2c2c] tracking-tighter">{isSignIn === 'SignIn' ? 'Đăng nhập để tiếp tục' : 'Đăng ký tài khoản mới'}</h3>
                         {isSignIn === 'SignIn' ?
-                            <LoginForm />
+                            <LoginForm setOpen={setOpen} />
                             :
-                            <RegisterForm />
+                            <RegisterForm setOpen={setOpen} />
                         }
                     </div>
                     <div className="relative w-full flex items-center justify-center mt-5 mb-4">

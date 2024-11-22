@@ -5,7 +5,8 @@ import { useForm } from "react-hook-form"
 import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import InputPassword from "@/components/ui/input-password"
-const LoginForm = () => {
+import { toast } from "sonner"
+const LoginForm = ({ setOpen }: { setOpen: (v: boolean) => void }) => {
     const formSchemaLogin = z.object({
         emailOrPhone: z.string().min(1, 'Tên đăng nhập không được để trống'),
         password: z.string().min(1, 'Mật khẩu không được để trống'),
@@ -52,7 +53,7 @@ const LoginForm = () => {
                             <FormMessage />
                         </FormItem>
                     )} />
-                <Button size={"lg"} variant={"destructive"} className="w-full" type="submit">Đăng nhập</Button>
+                <Button size={"lg"} variant={"destructive"} className="w-full" type="button" onClick={() => { toast.success('My success toast'); setOpen(false) }}>Đăng nhập</Button>
             </form>
         </Form>
     )

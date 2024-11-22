@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form"
 import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 
-const RegisterForm = () => {
+const RegisterForm = ({ setOpen }: { setOpen: (v: boolean) => void }) => {
     const formSchemaRegister = z.object({
         phoneNumber: z.string().min(1, 'Số điện thoại không được để trống')
     })
