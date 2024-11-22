@@ -48,7 +48,7 @@ const LoginOrRegister = (props: loginType) => {
                     email: result.email, image: result.picture, name: result.name
                 }
                 const res = await apiLoginWithGoogle(payload)
-                console.log(res)
+                console.log(res.data.userInfo.role)
                 // contains name, email & googleId(sub)
                 setOpen(false)
             }
