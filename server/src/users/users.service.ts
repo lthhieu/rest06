@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -60,6 +60,10 @@ export class UsersService {
 
   async register(registerUserDto: RegisterUserDto): Promise<any> {
     const { phone } = registerUserDto
+    const checkUser = await this.findOneByPhone(phone)
+    if (checkUser) {
+      throw new ConflictException(`Số điện thoại ${phone} đã được đăng ký.`);
+    }
     const user = this.usersRepository.create({ fullName: phone, phone, password: await this.hashPassword('123456') });
     const saveUser = await this.usersRepository.save(user);
     if (!saveUser) return null
