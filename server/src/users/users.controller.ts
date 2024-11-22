@@ -5,6 +5,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { RegisterUserDto } from './dto/register-user.dto';
 import { Public } from 'src/configs/decorators/public.decorator';
+import { ResponseMessage } from 'src/configs/decorators/response_message.decorator';
 
 @Controller('users')
 export class UsersController {
@@ -37,6 +38,7 @@ export class UsersController {
   }
 
   @Public()
+  @ResponseMessage('Đăng ký thành công')
   @Post('register')
   register(@Body() registerUserDto: RegisterUserDto) {
     return this.usersService.register(registerUserDto);

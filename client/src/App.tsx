@@ -6,7 +6,7 @@ function App() {
   return (
     <>
       <Outlet />
-      <Toaster position="top-right" richColors closeButton />
+      <Toaster position="top-center" richColors closeButton />
     </>
   )
 }

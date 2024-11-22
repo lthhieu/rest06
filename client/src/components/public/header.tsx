@@ -132,7 +132,7 @@ const Header = () => {
                                 </DialogHeader>
                             </VisuallyHidden>
 
-                            <LoginOrRegister setOpen={setOpen} isSignIn={true} />
+                            <LoginOrRegister setOpen={setOpen} setOpen2={setOpen2} isSignIn={true} />
 
                         </DialogContent>
                     </Dialog>
@@ -151,7 +151,7 @@ const Header = () => {
                                 </DialogHeader>
                             </VisuallyHidden>
 
-                            <LoginOrRegister setOpen={setOpen} isSignIn={false} />
+                            <LoginOrRegister setOpen={setOpen} setOpen2={setOpen2} isSignIn={false} />
 
                         </DialogContent>
                     </Dialog>

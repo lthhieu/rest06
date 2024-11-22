@@ -13,13 +13,13 @@ export class AuthController {
     constructor(private readonly authService: AuthService) { }
 
     @Post('login-with-google')
-    @ResponseMessage('Login with google successfully')
+    @ResponseMessage('Đăng nhập thành công')
     getTokenByGoogle(@Body() data: AuthDataGoogleDto) {
         return this.authService.loginWithGoogle(data);
     }
 
     @UseGuards(LocalAuthGuard)
-    @ResponseMessage('Login successfully')
+    @ResponseMessage('Đăng nhập thành công')
     @Post('login')
     async login(@User() user: Omit<UserEntity, "password">) {
         return this.authService.getToken(user)

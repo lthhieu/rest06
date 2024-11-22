@@ -8,9 +8,11 @@ import RegisterForm from "@/components/public/register-form"
 import { useGoogleLogin } from '@react-oauth/google'
 import axios from 'axios'
 import { apiLoginWithGoogle } from '@/apis/auth'
+import { toast } from 'sonner'
 type loginType = {
     isSignIn: boolean,
-    setOpen: (v: boolean) => void
+    setOpen: (v: boolean) => void,
+    setOpen2: (v: boolean) => void
 }
 
 type googleType = {
@@ -25,7 +27,7 @@ type googleType = {
 
 const LoginOrRegister = (props: loginType) => {
     const [isSignIn, setIsSignIn] = useState<string>('SignIn')
-    const { setOpen } = props
+    const { setOpen2, setOpen } = props
     useEffect(() => {
         if (props.isSignIn === true) {
             setIsSignIn('SignIn')
@@ -48,9 +50,13 @@ const LoginOrRegister = (props: loginType) => {
                     email: result.email, image: result.picture, name: result.name
                 }
                 const res = await apiLoginWithGoogle(payload)
-                console.log(res.data.userInfo.role)
-                // contains name, email & googleId(sub)
-                setOpen(false)
+                if (res && res.data) {
+                    toast.success(res.message);
+                    setOpen(false)
+                    setOpen2(false)
+                } else {
+                    toast.error(res.message);
+                }
             }
         },
     });
@@ -74,7 +80,7 @@ const LoginOrRegister = (props: loginType) => {
                         {isSignIn === 'SignIn' ?
                             <LoginForm setOpen={setOpen} />
                             :
-                            <RegisterForm setOpen={setOpen} />
+                            <RegisterForm setOpen={setOpen2} />
                         }
                     </div>
                     <div className="relative w-full flex items-center justify-center mt-5 mb-4">

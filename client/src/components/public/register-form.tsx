@@ -4,6 +4,8 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { apiRegisterNewUser } from "@/apis/users"
+import { toast } from "sonner"
 
 const RegisterForm = ({ setOpen }: { setOpen: (v: boolean) => void }) => {
     const formSchemaRegister = z.object({
@@ -16,10 +18,14 @@ const RegisterForm = ({ setOpen }: { setOpen: (v: boolean) => void }) => {
             phoneNumber: ''
         },
     })
-    const onSubmitRegister = (values: z.infer<typeof formSchemaRegister>) => {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
-        console.log(values)
+    const onSubmitRegister = async (values: z.infer<typeof formSchemaRegister>) => {
+        const res = await apiRegisterNewUser({ phone: values.phoneNumber })
+        if (res && res.data) {
+            toast.success(res.message);
+            setOpen(false)
+        } else {
+            toast.error(res.message);
+        }
     }
     return (
         <Form {...formRegister}>

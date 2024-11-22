@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import InputPassword from "@/components/ui/input-password"
 import { toast } from "sonner"
+import { apiLogin } from "@/apis/auth"
 const LoginForm = ({ setOpen }: { setOpen: (v: boolean) => void }) => {
     const formSchemaLogin = z.object({
         emailOrPhone: z.string().min(1, 'Tên đăng nhập không được để trống'),
@@ -19,10 +20,14 @@ const LoginForm = ({ setOpen }: { setOpen: (v: boolean) => void }) => {
             password: ''
         },
     })
-    const onSubmitLogin = (values: z.infer<typeof formSchemaLogin>) => {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
-        console.log(values)
+    const onSubmitLogin = async (values: z.infer<typeof formSchemaLogin>) => {
+        const res = await apiLogin({ username: values.emailOrPhone, password: values.password })
+        if (res && res.data) {
+            toast.success(res.message);
+            setOpen(false)
+        } else {
+            toast.error(res.message);
+        }
     }
     return (
         <Form {...formLogin}>
@@ -53,7 +58,7 @@ const LoginForm = ({ setOpen }: { setOpen: (v: boolean) => void }) => {
                             <FormMessage />
                         </FormItem>
                     )} />
-                <Button size={"lg"} variant={"destructive"} className="w-full" type="button" onClick={() => { toast.success('My success toast'); setOpen(false) }}>Đăng nhập</Button>
+                <Button size={"lg"} variant={"destructive"} className="w-full" type="submit">Đăng nhập</Button>
             </form>
         </Form>
     )
