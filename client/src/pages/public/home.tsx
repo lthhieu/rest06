@@ -1,4 +1,7 @@
+import useAccountStore from "@/zustand/useAccountStore"
+
 const Home = () => {
-    return (<>Home page</>)
+    const { info } = useAccountStore()
+    return (<>Xin chào {info?.email}</>)
 }
 export default Home

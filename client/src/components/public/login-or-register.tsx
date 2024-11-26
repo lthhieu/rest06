@@ -9,6 +9,7 @@ import { useGoogleLogin } from '@react-oauth/google'
 import axios from 'axios'
 import { apiLoginWithGoogle } from '@/apis/auth'
 import { toast } from 'sonner'
+import useAccountStore from '@/zustand/useAccountStore'
 type loginType = {
     isSignIn: boolean,
     setOpen: (v: boolean) => void,
@@ -28,6 +29,7 @@ type googleType = {
 const LoginOrRegister = (props: loginType) => {
     const [isSignIn, setIsSignIn] = useState<string>('SignIn')
     const { setOpen2, setOpen } = props
+    const { info, setInfo, setToken, token } = useAccountStore()
     useEffect(() => {
         if (props.isSignIn === true) {
             setIsSignIn('SignIn')
@@ -35,8 +37,10 @@ const LoginOrRegister = (props: loginType) => {
             setIsSignIn('SignUp')
         }
     }, [])
+    console.log(info, token)
     const login = useGoogleLogin({
         onSuccess: async response => {
+
             const token = response.access_token;
             // fetching userinfo can be done on the client or the server
             const userInfo = await axios
@@ -51,6 +55,8 @@ const LoginOrRegister = (props: loginType) => {
                 }
                 const res = await apiLoginWithGoogle(payload)
                 if (res && res.data) {
+                    setToken(res.data.access_token);
+                    setInfo(res.data.userInfo);
                     toast.success(res.message);
                     setOpen(false)
                     setOpen2(false)

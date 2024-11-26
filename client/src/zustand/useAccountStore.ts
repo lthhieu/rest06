@@ -1,15 +1,15 @@
 import { create } from 'zustand'
 
 type accountType = {
-    info: any,
-    setInfo: (v: string) => void
+    info: UserInfo | null,
+    setInfo: (v: UserInfo) => void
     token: string,
     setToken: (v: string) => void
 }
 
 const useAccountStore = create<accountType>()((set) => ({
-    info: '',
-    setInfo: (v: any) => set(() => ({ info: v })),
+    info: null,
+    setInfo: (v: UserInfo | null) => set(() => ({ info: v })),
     token: '',
     setToken: (v: string) => set(() => ({ token: v })),
 }))
