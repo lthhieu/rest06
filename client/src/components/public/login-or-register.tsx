@@ -37,7 +37,6 @@ const LoginOrRegister = (props: loginType) => {
             setIsSignIn('SignUp')
         }
     }, [])
-    console.log(info, token)
     const login = useGoogleLogin({
         onSuccess: async response => {
 

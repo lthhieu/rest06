@@ -7,7 +7,9 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import InputPassword from "@/components/ui/input-password"
 import { toast } from "sonner"
 import { apiLogin } from "@/apis/auth"
+import useAccountStore from '@/zustand/useAccountStore'
 const LoginForm = ({ setOpen }: { setOpen: (v: boolean) => void }) => {
+    const { setInfo, setToken } = useAccountStore()
     const formSchemaLogin = z.object({
         emailOrPhone: z.string().min(1, 'Tên đăng nhập không được để trống'),
         password: z.string().min(1, 'Mật khẩu không được để trống'),
@@ -23,6 +25,8 @@ const LoginForm = ({ setOpen }: { setOpen: (v: boolean) => void }) => {
     const onSubmitLogin = async (values: z.infer<typeof formSchemaLogin>) => {
         const res = await apiLogin({ username: values.emailOrPhone, password: values.password })
         if (res && res.data) {
+            setToken(res.data.access_token);
+            setInfo(res.data.userInfo);
             toast.success(res.message);
             setOpen(false)
         } else {
