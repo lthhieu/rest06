@@ -4,16 +4,21 @@ import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { User } from 'src/users/entities/user.entity';
 import * as bcrypt from 'bcrypt';
+import { ConfigService } from '@nestjs/config';
 
 export type Payload = {
     userId: number;
+    name: string,
+    email: string,
+    phone: string,
     role: string
 };
 
 @Injectable()
 export class AuthService {
     constructor(private usersService: UsersService,
-        private jwtService: JwtService
+        private jwtService: JwtService,
+        private configService: ConfigService
     ) { }
 
     async validateUser(username: string, pass: string): Promise<any> {
@@ -43,9 +48,11 @@ export class AuthService {
     }
 
     async getToken(user: Omit<User, "password">) {
-        const payload: Payload = { userId: user.id, role: user.role };
+        const payload: Payload = { userId: user.id, role: user.role, email: user.email, name: user.fullName, phone: user.phone };
+        const refreshToken = this.createRefreshToken(payload)
         return {
             access_token: this.jwtService.sign(payload),
+            refreshToken,
             userInfo: {
                 id: user.id,
                 name: user.fullName,
@@ -57,7 +64,11 @@ export class AuthService {
         };
     }
 
-    createRefreshToken = () => {
-
+    createRefreshToken = (payload: Payload) => {
+        const refreshToken = this.jwtService.sign(payload, {
+            secret: this.configService.get('JWT_REFRESH_TOKEN_SECRET') ?? 'justasecret',
+            expiresIn: this.configService.get('JWT_REFRESH_TOKEN_EXPIRES_IN') ?? '1d'
+        })
+        return refreshToken
     }
 }
