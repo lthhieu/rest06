@@ -5,7 +5,7 @@ import { JwtService } from '@nestjs/jwt';
 import { User } from 'src/users/entities/user.entity';
 import * as bcrypt from 'bcrypt';
 import { ConfigService } from '@nestjs/config';
-
+import { Response } from 'express'
 export type Payload = {
     userId: number;
     name: string,
@@ -35,24 +35,30 @@ export class AuthService {
         return null;
     }
 
-    async loginWithGoogle(data: AuthDataGoogleDto): Promise<any> {
+    async loginWithGoogle(data: AuthDataGoogleDto, response: Response): Promise<any> {
         const { email, image, name } = data
         const user = await this.usersService.findOneByEmail(email);
         //nếu người dùng chưa tồn tại, tiến hành create new
         if (!user) {
             const newUser = await this.usersService.createWithGoogle(data);
-            return this.getToken(newUser)
+            return this.getToken(newUser, response)
         }
         //nếu đã ồn tại, thì trả về thông tin user
-        return this.getToken(user)
+        return this.getToken(user, response)
     }
 
-    async getToken(user: Omit<User, "password">) {
+    async getToken(user: Omit<User, "password">, response: Response) {
         const payload: Payload = { userId: user.id, role: user.role, email: user.email, name: user.fullName, phone: user.phone };
+        //create refresh token
         const refreshToken = this.createRefreshToken(payload)
+        // update refresh token in db
+        await this.usersService.updateRefreshToken(refreshToken, user.id)
+        // attach cookies
+        response.cookie('refresh_token', refreshToken, {
+
+        })
         return {
             access_token: this.jwtService.sign(payload),
-            refreshToken,
             userInfo: {
                 id: user.id,
                 name: user.fullName,

@@ -70,4 +70,10 @@ export class UsersService {
     const { password, ...result } = saveUser
     return result
   }
+
+  updateRefreshToken = async (token: string, id: number) => {
+    const user = await this.usersRepository.findOneBy({ id });
+    if (!user) return null
+    return this.usersRepository.update(id, { refreshToken: token })
+  }
 }

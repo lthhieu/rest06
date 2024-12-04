@@ -60,6 +60,9 @@ export class User {
     score: number;
 
     @Column({ type: 'varchar', nullable: true })
+    refreshToken: string;
+
+    @Column({ type: 'varchar', nullable: true })
     resetPwdToken: string;
 
     @Column({ type: 'timestamptz', nullable: true })
