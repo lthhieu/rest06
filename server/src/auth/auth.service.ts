@@ -6,6 +6,7 @@ import { User } from 'src/users/entities/user.entity';
 import * as bcrypt from 'bcrypt';
 import { ConfigService } from '@nestjs/config';
 import { Response } from 'express'
+import ms from "ms";
 export type Payload = {
     userId: number;
     name: string,
@@ -55,7 +56,8 @@ export class AuthService {
         await this.usersService.updateRefreshToken(refreshToken, user.id)
         // attach cookies
         response.cookie('refresh_token', refreshToken, {
-
+            httpOnly: true,
+            maxAge: ms(this.configService.get<string>('JWT_REFRESH_TOKEN_EXPIRES_IN')) ?? ms('1d')
         })
         return {
             access_token: this.jwtService.sign(payload),
