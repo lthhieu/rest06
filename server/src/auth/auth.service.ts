@@ -12,6 +12,7 @@ export type Payload = {
     name: string,
     email: string,
     phone: string,
+    image: string,
     role: string
 };
 
@@ -49,7 +50,7 @@ export class AuthService {
     }
 
     async getToken(user: Omit<User, "password">, response: Response) {
-        const payload: Payload = { userId: user.id, role: user.role, email: user.email, name: user.fullName, phone: user.phone };
+        const payload: Payload = { userId: user.id, role: user.role, email: user.email, name: user.fullName, phone: user.phone, image: user.avatar };
         //create refresh token
         const refreshToken = this.createRefreshToken(payload)
         // update refresh token in db
