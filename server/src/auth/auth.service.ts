@@ -8,11 +8,7 @@ import { ConfigService } from '@nestjs/config';
 import { Response } from 'express'
 import ms from "ms";
 export type Payload = {
-    userId: number;
-    name: string,
-    email: string,
-    phone: string,
-    image: string,
+    userId: number,
     role: string
 };
 
@@ -50,15 +46,17 @@ export class AuthService {
     }
 
     async getToken(user: Omit<User, "password">, response: Response) {
-        const payload: Payload = { userId: user.id, role: user.role, email: user.email, name: user.fullName, phone: user.phone, image: user.avatar };
+        const payload: Payload = { userId: user.id, role: user.role };
         //create refresh token
         const refreshToken = this.createRefreshToken(payload)
         // update refresh token in db
         await this.usersService.updateRefreshToken(refreshToken, user.id)
         // attach cookies
+        const refreshTokenExpire = this.configService.get<string>('JWT_REFRESH_TOKEN_EXPIRES_IN')
         response.cookie('refresh_token', refreshToken, {
             httpOnly: true,
-            maxAge: ms('2d')
+            maxAge: refreshTokenExpire ?
+                ms(refreshTokenExpire) * 2 : ms('1d') * 2
         })
         return {
             access_token: this.jwtService.sign(payload),
