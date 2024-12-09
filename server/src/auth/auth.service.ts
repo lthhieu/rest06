@@ -94,4 +94,12 @@ export class AuthService {
             throw new BadRequestException('Refresh token không hợp. Vui lòng đăng nhập!')
         }
     }
+
+    logout = async (user: Omit<User, "password">, response: Response) => {
+        //reset refresh token in db
+        await this.usersService.updateRefreshToken(null, user.id)
+        //clear cookies
+        response.clearCookie('refresh_token')
+        return 'ok'
+    }
 }

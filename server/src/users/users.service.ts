@@ -1,4 +1,4 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -27,7 +27,7 @@ export class UsersService {
 
   async findOne(id: number): Promise<Omit<User, "password"> | null> {
     const user = await this.usersRepository.findOneBy({ id });
-    if (!user) return null
+    if (!user) throw new BadRequestException(`Không tìm thấy user với id = ${id}`)
     const { password, ...result } = user
     return result
   }
@@ -66,14 +66,14 @@ export class UsersService {
     }
     const user = this.usersRepository.create({ fullName: phone, phone, password: await this.hashPassword('123456') });
     const saveUser = await this.usersRepository.save(user);
-    if (!saveUser) return null
+    if (!saveUser) throw new BadRequestException(`Không thể lưu thông tin người dùng!`)
     const { password, ...result } = saveUser
     return result
   }
 
   updateRefreshToken = async (token: string, id: number) => {
     const user = await this.usersRepository.findOneBy({ id });
-    if (!user) return null
-    return this.usersRepository.update(id, { refreshToken: token })
+    if (!user) throw new BadRequestException(`Không tìm thấy user với id = ${id}`)
+    return await this.usersRepository.update(id, { refreshToken: token })
   }
 }

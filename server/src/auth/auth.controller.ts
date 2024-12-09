@@ -42,4 +42,10 @@ export class AuthController {
         }
         throw new BadRequestException('Không có refresh token ở cookies')
     }
+
+    @Post('logout')
+    @ResponseMessage('Đăng xuất thành công')
+    logout(@User() user: Omit<UserEntity, "password">, @Res({ passthrough: true }) response: Response) {
+        return this.authService.logout(user, response);
+    }
 }
