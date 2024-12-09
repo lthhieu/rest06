@@ -79,12 +79,17 @@ export class AuthService {
         return refreshToken
     }
 
-    refreshAccessToken = (oldToken: string) => {
+    refreshAccessToken = async (oldToken: string, response: Response) => {
         try {
-            let test = this.jwtService.verify(oldToken, {
+            let check: Payload = this.jwtService.verify(oldToken, {
                 secret: this.configService.get('JWT_REFRESH_TOKEN_SECRET') ?? 'justasecret'
             })
-            return { test }
+            const user = await this.usersService.findOne(check.userId);
+            //nếu người dùng chưa tồn tại, tiến hành create new
+            if (!user) {
+                throw new BadRequestException(`Không tìm thấy user với id = ${check.userId}`)
+            }
+            return this.getToken(user, response)
         } catch (error) {
             throw new BadRequestException('Refresh token không hợp. Vui lòng đăng nhập!')
         }

@@ -36,9 +36,9 @@ export class AuthController {
     @Public()
     @ResponseMessage('Làm mới access token')
     @Get('refresh')
-    async refreshAccessToken(@Req() request: Request) {
+    async refreshAccessToken(@Req() request: Request, @Res({ passthrough: true }) response: Response) {
         if (request.cookies['refresh_token']) {
-            return this.authService.refreshAccessToken(request.cookies['refresh_token'])
+            return this.authService.refreshAccessToken(request.cookies['refresh_token'], response)
         }
         throw new BadRequestException('Không có refresh token ở cookies')
     }
